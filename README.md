@@ -19,12 +19,23 @@ or assign score to every piece's current position on the board, but such calcula
 greater than 3 the engine is too slow for gameplay purposes. As such, the current evaluation function is good enough to allow the engine to make moves
 in reasonable time, while still being complex enough to make sensible moves and pose a challenge to most chess beginners. A workaround could be programming this project in languages that offer greater efficiency such as C++, but existing python libraries for chess and the GUI really sped up development time and made the project challenging enough to a beginner programmer, while being manageable and enjoyable.
 
-### pygame
-
 ### potential improvements
 Any improvements to the evaluation algorithm has potential to make the engine more complex in analysing the state of the board, but at a tradeoff of computational time. Some areas I have explored are:
 - analysing differently based on the state of the game, to encourage certain behaviours in the opening, such as development of pieces
 - assigning a score to the current position of every single piece on the board
-- penalising pieces for being under attack to encourage a more defensive playstyle. The first iteration of the AI was extremely aggressive and will always try to attack the human player, making blunders in the process.
+- penalising pieces for being under attack to encourage a more defensive playstyle. The first iteration of the AI was extremely aggressive and will always try to make attacking moves regardless of consequences to its own position, making blunders in the process.
 
-horizon effect
+There are definitely also many QoL changes that can be implemented, such as being able to play on black, or dynamically displaying the current board eval to see if the engine thinks it is winning or losing. 
+
+There is also the horizon effect to consider. It may well be possible that the engine does not see far enough into the future, such that it misses out on a piece of critical information that happens too far into the future that has an impact on its current decision. The minimax algorithm can also be replaced by more advanced concepts, such as Monte Carlo Tree Search, which may yield better results. 
+
+### interesting resources:
+[Minimax algorithm](https://en.wikipedia.org/wiki/Minimax)
+
+[Python chess documentation](https://python-chess.readthedocs.io/en/latest/)
+
+[Pygame documentation](https://www.pygame.org/news)
+
+[Monte Carlo tree search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)
+
+[How does Stockfish work?](https://blogs.cornell.edu/info2040/2022/09/30/game-theory-how-stockfish-mastered-chess/)
