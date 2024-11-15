@@ -85,15 +85,12 @@ def evaluate_board(board):
         chess.KING: 200,
         chess.QUEEN: 9,
         chess.ROOK: 5,
-        chess.BISHOP: 3,
+        chess.BISHOP: 3.5,
         chess.KNIGHT: 3,
         chess.PAWN: 1
     }
     
     # Factors for pawn structure and mobility
-    doubled_pawn_penalty = 0.5
-    blocked_pawn_penalty = 0.5
-    isolated_pawn_penalty = 0.5
     mobility_factor = 0.1
     
     # Material Evaluation
@@ -103,39 +100,13 @@ def evaluate_board(board):
         black_pieces = len(board.pieces(piece_type, chess.BLACK))
         material_score += value * (white_pieces - black_pieces)
 
-    # Pawn Structure Evaluation
-    pawn_structure_score = 0
-    for color in [chess.WHITE, chess.BLACK]:
-        pawns = board.pieces(chess.PAWN, color)
-        pawn_files = [chess.square_file(p) for p in pawns]
 
-        # Count doubled pawns
-        for file in range(8):
-            if pawn_files.count(file) > 1:
-                pawn_structure_score -= doubled_pawn_penalty * (1 if color == chess.WHITE else -1)
-        
-        # Count blocked pawns
-        for pawn in pawns:
-            if color == chess.WHITE:
-                blocking_square = pawn + 8
-            else:
-                blocking_square = pawn - 8
-            if board.piece_at(blocking_square):
-                pawn_structure_score -= blocked_pawn_penalty * (1 if color == chess.WHITE else -1)
-        
-        # Count isolated pawns
-        for pawn in pawns:
-            file = chess.square_file(pawn)
-            left_file_pawns = [p for p in pawns if chess.square_file(p) == file - 1]
-            right_file_pawns = [p for p in pawns if chess.square_file(p) == file + 1]
-            if not left_file_pawns and not right_file_pawns:
-                pawn_structure_score -= isolated_pawn_penalty * (1 if color == chess.WHITE else -1)
 
     # Mobility Evaluation
     mobility_score = (len(list(board.legal_moves)) * mobility_factor) * (1 if board.turn == chess.WHITE else -1)
 
     # Total Evaluation
-    total_score = material_score + pawn_structure_score + mobility_score
+    total_score = material_score + mobility_score
     return total_score
 
 def ai_move(depth):
@@ -320,7 +291,7 @@ def draw_selected_square():
 # Run game loop
 running = True
 game_over = False
-depth = 2
+depth = 3
 player_turn = chess.WHITE
 draw_board(screen)
 while running:
